@@ -25,6 +25,7 @@ class ChapmanRadioRN extends Component {
     }
   
     render() {
+      
       const {playButtonLabel} = this.state
       const PlayButton = MKButton.coloredFab()
         .withStyle({
