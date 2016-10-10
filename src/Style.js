@@ -14,12 +14,7 @@ var Style = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       color: 'white'
-    },
-  
-    fab: {
-      width: 100,
-      height: 100
-    },
+    }
   
 });
 
