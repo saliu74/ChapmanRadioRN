@@ -4,18 +4,16 @@ import { StyleSheet } from 'react-native';
 
 var Style = StyleSheet.create({
     rootContainer: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-
-    playContainer: {
-        flex: 2,
-        backgroundColor: '#193441',
-        justifyContent: 'center'
-    },
-
-    infoContainer: {
-        flex: 8,
-        backgroundColor: '#3E606F'
+  
+    buttonText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: 'white'
     }
   
 });
