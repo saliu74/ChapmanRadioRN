@@ -14,6 +14,9 @@ import {
   MKButton,
 } from 'react-native-material-kit';
 
+import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
+const url = "http://198.175.251.242/listen";
+
 class ChapmanRadioRN extends Component {
 
     constructor(props) {
@@ -23,9 +26,9 @@ class ChapmanRadioRN extends Component {
           playButtonLabel: "PLAY",
         }
     }
-  
+
     render() {
-      
+
       const {playButtonLabel} = this.state
       const PlayButton = MKButton.coloredFab()
         .withStyle({
@@ -46,16 +49,17 @@ class ChapmanRadioRN extends Component {
           this._onPlayButtonPressed()
         })
         .build();
-      
+
       return (
             <View style={Style.rootContainer}>
                 <PlayButton/>
             </View>
         )
     }
-  
+
     _onPlayButtonPressed() {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      ReactNativeAudioStreaming.play(url);
       if (this.state.playButtonLabel == "PLAY") {
         this.setState({
             playButtonLabel: "PAUSE"
