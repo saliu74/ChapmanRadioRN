@@ -5,6 +5,7 @@ import {
     View,
     Text,
     LayoutAnimation,
+    Image,
     AppRegistry
 } from 'react-native';
 
@@ -12,7 +13,11 @@ import Style from './Style';
 import {
   MKColor,
   MKButton,
+  getTheme
 } from 'react-native-material-kit';
+
+import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
+const url = "http://198.175.251.242/listen";
 
 class ChapmanRadioRN extends Component {
 
@@ -23,19 +28,21 @@ class ChapmanRadioRN extends Component {
           playButtonLabel: "PLAY",
         }
     }
-  
+
     render() {
-      
+
+      // Play button specifics
+
       const {playButtonLabel} = this.state
       const PlayButton = MKButton.coloredFab()
         .withStyle({
             width: 100,
-            height: 100,
+            height: 100
          })
         .withText(this.state.playButtonLabel)
-        .withBackgroundColor(MKColor.Blue)
+        .withBackgroundColor(MKColor.Cyan)
         .withStyle({
-              shadowRadius: 5,
+              shadowRadius: 8,
               shadowOffset: { width: 0, height: 0.5 },
               shadowOpacity: 0.4,
               shadowColor: 'black',
@@ -46,22 +53,26 @@ class ChapmanRadioRN extends Component {
           this._onPlayButtonPressed()
         })
         .build();
-      
+
+      // Card specifics
+
       return (
             <View style={Style.rootContainer}>
                 <PlayButton/>
             </View>
         )
     }
-  
+
     _onPlayButtonPressed() {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       if (this.state.playButtonLabel == "PLAY") {
+        ReactNativeAudioStreaming.play(url);
         this.setState({
             playButtonLabel: "PAUSE"
         })
       }
       else {
+        ReactNativeAudioStreaming.pause();
         this.setState({
             playButtonLabel: "PLAY"
         })

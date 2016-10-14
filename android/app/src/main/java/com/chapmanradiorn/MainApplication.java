@@ -1,10 +1,12 @@
 package com.chapmanradiorn;
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.audioStreaming.ReactNativeAudioStreamingPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -25,7 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactMaterialKitPackage()
+            new ReactMaterialKitPackage(),
+              new ReactNativeAudioStreamingPackage(MainActivity.class)
       );
     }
   };

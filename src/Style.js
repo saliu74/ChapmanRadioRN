@@ -9,13 +9,21 @@ var Style = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-  
+
     buttonText: {
       fontSize: 20,
       fontWeight: 'bold',
       color: 'white'
+    },
+
+    playContainer: {
+      flex: 5
+    },
+
+    cardContainer: {
+      flex: 5
     }
-  
+
 });
 
 export default Style;
