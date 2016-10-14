@@ -18,7 +18,7 @@ var Style = StyleSheet.create({
 
     playContainer: {
       flex: 5
-    }
+    },
 
     cardContainer: {
       flex: 5

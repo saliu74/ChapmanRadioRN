@@ -37,7 +37,7 @@ class ChapmanRadioRN extends Component {
       const PlayButton = MKButton.coloredFab()
         .withStyle({
             width: 100,
-            height: 100,
+            height: 100
          })
         .withText(this.state.playButtonLabel)
         .withBackgroundColor(MKColor.Cyan)
@@ -58,7 +58,7 @@ class ChapmanRadioRN extends Component {
 
       return (
             <View style={Style.rootContainer}>
-                <PlayButton style={Style.playContainer}/>
+                <PlayButton/>
             </View>
         )
     }
