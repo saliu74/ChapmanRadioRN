@@ -6,6 +6,7 @@ import {
     Text,
     LayoutAnimation,
     Image,
+    ScrollView,
     AppRegistry
 } from 'react-native';
 
@@ -56,10 +57,37 @@ class ChapmanRadioRN extends Component {
 
       // Card specifics
 
+      const theme = getTheme();
+      var base64Icon = 'https://www.petdrugsonline.co.uk/images/page-headers/cats-master-header';
+
       return (
             <View style={Style.rootContainer}>
-                <PlayButton/>
-            </View>
+                <View style={Style.playContainer}>
+                  <PlayButton/>
+                </View>
+                  <ScrollView style={Style.cardContainer}>
+                    <View style={Style.card1}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
+                        <Text style={theme.cardTitleStyle}>Welcome</Text>
+                        <Text style={theme.cardContentStyle}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          Mauris sagittis pellentesque lacus eleifend lacinia...
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={Style.card2}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
+                        <Text style={theme.cardTitleStyle}>Welcome</Text>
+                        <Text style={theme.cardContentStyle}>
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                          Mauris sagittis pellentesque lacus eleifend lacinia...
+                        </Text>
+                      </View>
+                    </View>
+                </ScrollView>
+              </View>
         )
     }
 
