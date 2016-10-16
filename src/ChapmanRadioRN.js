@@ -27,6 +27,7 @@ class ChapmanRadioRN extends Component {
 
         this.state = {
           playButtonLabel: "PLAY",
+          show: ""
         }
     }
 
@@ -60,34 +61,38 @@ class ChapmanRadioRN extends Component {
       const theme = getTheme();
       var base64Icon = 'https://www.petdrugsonline.co.uk/images/page-headers/cats-master-header';
 
+      // Live Show json
+
+      console.log(this.show)
+
       return (
             <View style={Style.rootContainer}>
                 <View style={Style.playContainer}>
                   <PlayButton/>
                 </View>
-                  <ScrollView style={Style.cardContainer}>
-                    <View style={Style.card1}>
-                      <View style={theme.cardStyle}>
-                        <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
-                        <Text style={theme.cardTitleStyle}>Welcome</Text>
-                        <Text style={theme.cardContentStyle}>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                          Mauris sagittis pellentesque lacus eleifend lacinia...
-                        </Text>
-                      </View>
+                <ScrollView style={Style.cardContainer}>
+                  <View style={Style.card1}>
+                    <View style={theme.cardStyle}>
+                      <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
+                      <Text style={theme.cardTitleStyle}>Welcome</Text>
+                      <Text style={theme.cardContentStyle}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Mauris sagittis pellentesque lacus eleifend lacinia...
+                      </Text>
                     </View>
-                    <View style={Style.card2}>
-                      <View style={theme.cardStyle}>
-                        <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
-                        <Text style={theme.cardTitleStyle}>Welcome</Text>
-                        <Text style={theme.cardContentStyle}>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                          Mauris sagittis pellentesque lacus eleifend lacinia...
-                        </Text>
-                      </View>
+                  </View>
+                  <View style={Style.card2}>
+                    <View style={theme.cardStyle}>
+                      <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
+                      <Text style={theme.cardTitleStyle}>Welcome</Text>
+                      <Text style={theme.cardContentStyle}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Mauris sagittis pellentesque lacus eleifend lacinia...
+                      </Text>
                     </View>
-                </ScrollView>
-              </View>
+                  </View>
+              </ScrollView>
+            </View>
         )
     }
 
@@ -106,6 +111,16 @@ class ChapmanRadioRN extends Component {
         })
       }
     }
+
+    componentWillMount() {
+    fetch("http://api.chapmanradio.com/legacy/livestreams.json")
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log('a');
+        this.setState({show: responseData.nowplaying});
+      })
+      .done();
+  }
 
 }
 

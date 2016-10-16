@@ -25,23 +25,19 @@ var Style = StyleSheet.create({
     cardContainer: {
       flex: 7.5,
       flexDirection: 'column'
-
     },
 
     card1: {
-      flex: 4,
-      paddingTop: 10,
-      paddingBottom: 50,
-      paddingLeft: 10,
-      paddingRight: 10
+      paddingBottom: 20,
+      paddingLeft: 30,
+      paddingRight: 30
     },
 
     card2: {
-      flex: 6,
-      paddingTop: 50,
-      paddingBottom: 10,
-      paddingLeft: 10,
-      paddingRight: 10
+      paddingTop: 20,
+      paddingBottom: 30,
+      paddingLeft: 30,
+      paddingRight: 30
     }
 
 });
