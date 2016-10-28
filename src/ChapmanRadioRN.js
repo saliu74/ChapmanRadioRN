@@ -59,11 +59,11 @@ class ChapmanRadioRN extends Component {
       // Card specifics
 
       const theme = getTheme();
-      var base64Icon = 'https://www.petdrugsonline.co.uk/images/page-headers/cats-master-header';
+      var base64Icon = this.state.show.img200;
 
       // Live Show json
 
-      console.log(this.show)
+      console.log(this.state.show.img200)
 
       return (
             <View style={Style.rootContainer}>
@@ -73,7 +73,7 @@ class ChapmanRadioRN extends Component {
                 <ScrollView style={Style.cardContainer}>
                   <View style={Style.card1}>
                     <View style={theme.cardStyle}>
-                      <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
+                      <Image source={{uri : base64Icon}} style={Style.cardImageStyle} />
                       <Text style={theme.cardTitleStyle}>Welcome</Text>
                       <Text style={theme.cardContentStyle}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.

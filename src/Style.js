@@ -38,6 +38,12 @@ var Style = StyleSheet.create({
       paddingBottom: 30,
       paddingLeft: 30,
       paddingRight: 30
+    },
+
+    cardImageStyle: {
+      flex: 1,
+      height: 170,
+      resizeMode: 'contain'
     }
 
 });
