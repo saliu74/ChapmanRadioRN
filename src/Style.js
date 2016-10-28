@@ -30,7 +30,8 @@ var Style = StyleSheet.create({
     card1: {
       paddingBottom: 20,
       paddingLeft: 30,
-      paddingRight: 30
+      paddingRight: 30,
+      paddingTop: 5
     },
 
     card2: {
@@ -43,7 +44,7 @@ var Style = StyleSheet.create({
     cardImageStyle: {
       flex: 1,
       height: 170,
-      resizeMode: 'contain'
+      resizeMode: 'stretch'
     }
 
 });

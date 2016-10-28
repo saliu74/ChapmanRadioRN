@@ -27,7 +27,14 @@ class ChapmanRadioRN extends Component {
 
         this.state = {
           playButtonLabel: "PLAY",
-          show: ""
+          showJSON: "",
+          showPic: "",
+          showText: "",
+
+          songJSON: "",
+          songPic: "",
+          songText: ""
+
         }
     }
 
@@ -59,11 +66,29 @@ class ChapmanRadioRN extends Component {
       // Card specifics
 
       const theme = getTheme();
-      var base64Icon = this.state.show.img200;
 
-      // Live Show json
+      // Live Show
 
-      console.log(this.state.show.img200)
+      if (this.state.showJSON.showname != null) {
+        this.state.showPic = this.state.showJSON.pic
+        this.state.showText = this.state.showJSON.showname + " featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+      }
+
+      console.log((this.state.showPic).slice(2))
+
+      // Song
+
+      if (this.state.songJSON != null) {
+        this.state.songPic = this.state.songJSON.img200
+        this.state.songText = this.state.songJSON.track + " by " + this.state.songJSON.artist
+      }
+
+      // Automation
+
+      if (this.state.showJSON.showname == null) {
+        this.state.showText = "Automation"
+        this.state.songText = "Automation"
+      }
 
       return (
             <View style={Style.rootContainer}>
@@ -73,21 +98,17 @@ class ChapmanRadioRN extends Component {
                 <ScrollView style={Style.cardContainer}>
                   <View style={Style.card1}>
                     <View style={theme.cardStyle}>
-                      <Image source={{uri : base64Icon}} style={Style.cardImageStyle} />
-                      <Text style={theme.cardTitleStyle}>Welcome</Text>
+                      <Image source={{uri : ""}} style={Style.cardImageStyle} />
                       <Text style={theme.cardContentStyle}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Mauris sagittis pellentesque lacus eleifend lacinia...
+                        {this.state.showText}
                       </Text>
                     </View>
                   </View>
                   <View style={Style.card2}>
                     <View style={theme.cardStyle}>
-                      <Image source={{uri : base64Icon}} style={theme.cardImageStyle} />
-                      <Text style={theme.cardTitleStyle}>Welcome</Text>
+                      <Image source={{uri : this.state.songPic}} style={theme.cardImageStyle} />
                       <Text style={theme.cardContentStyle}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Mauris sagittis pellentesque lacus eleifend lacinia...
+                        {this.state.songText}
                       </Text>
                     </View>
                   </View>
@@ -117,7 +138,8 @@ class ChapmanRadioRN extends Component {
       .then((response) => response.json())
       .then((responseData) => {
         console.log('a');
-        this.setState({show: responseData.nowplaying});
+        this.setState({songJSON: responseData.nowplaying});
+        this.setState({showJSON: responseData.show});
       })
       .done();
   }
