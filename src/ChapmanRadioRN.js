@@ -45,11 +45,11 @@ class ChapmanRadioRN extends Component {
         this.state = {
           playButtonLabel: "PLAY",
           showJSON: "",
-          showPic: "",
+          showPic: ".",
           showText: "",
 
           songJSON: "",
-          songPic: "",
+          songPic: ".",
           songText: ""
 
         }
@@ -113,7 +113,7 @@ class ChapmanRadioRN extends Component {
     componentWillMount() {
       setInterval(() => {
         this.refresh()
-      }, 1000)
+      }, 10000)
     }
 
     componentDidMount() {
@@ -131,7 +131,7 @@ class ChapmanRadioRN extends Component {
         .done();
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      
+
       // Live Show
 
       if (this.state.showJSON.showname != null) {
