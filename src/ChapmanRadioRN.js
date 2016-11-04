@@ -17,6 +17,11 @@ import {
   getTheme
 } from 'react-native-material-kit';
 
+import ScrollableTabView, {
+  ScrollableTabBar,
+  DefaultTabBar
+} from 'react-native-scrollable-tab-view';
+
 import { ReactNativeAudioStreaming, Player } from 'react-native-audio-streaming';
 const url = "http://198.175.251.242/listen";
 
@@ -63,33 +68,46 @@ class ChapmanRadioRN extends Component {
 
       return (
             <View style={Style.rootContainer}>
-                <View style={Style.playContainer}>
-                <PlayButton
-                  onPress={() => {
-                    this._onPlayButtonPressed();
-                  }}
-                >
-                  <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
-                </PlayButton>
-                </View>
-                <ScrollView style={Style.cardContainer}>
-                  <View style={Style.card1}>
-                    <View style={theme.cardStyle}>
-                      <Image source={{uri : this.state.showPic}} style={Style.cardImageStyle} />
-                      <Text style={theme.cardContentStyle}>
-                        {this.state.showText}
-                      </Text>
-                    </View>
+              <ScrollableTabView
+                style={{marginTop: 20, }}
+                initialPage={0}
+                renderTabBar={() => <ScrollableTabBar />}
+              >
+                <View tabLabel='Player' style={Style.rootContainer}>
+
+
+                  <View style={Style.playContainer}>
+                  <PlayButton
+                    onPress={() => {
+                      this._onPlayButtonPressed();
+                    }}
+                  >
+                    <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
+                  </PlayButton>
                   </View>
-                  <View style={Style.card2}>
-                    <View style={theme.cardStyle}>
-                      <Image source={{uri : this.state.songPic}} style={Style.cardImageStyle} />
-                      <Text style={theme.cardContentStyle}>
-                        {this.state.songText}
-                      </Text>
+                  <ScrollView style={Style.cardContainer}>
+                    <View style={Style.card1}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : this.state.showPic}} style={Style.cardImageStyle} />
+                        <Text style={theme.cardContentStyle}>
+                          {this.state.showText}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-              </ScrollView>
+                    <View style={Style.card2}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : this.state.songPic}} style={Style.cardImageStyle} />
+                        <Text style={theme.cardContentStyle}>
+                          {this.state.songText}
+                        </Text>
+                      </View>
+                    </View>
+                </ScrollView>
+
+
+              </View>
+                <Text tabLabel='Schedule'/>
+              </ScrollableTabView>
             </View>
         )
     }
@@ -97,7 +115,7 @@ class ChapmanRadioRN extends Component {
     _onPlayButtonPressed() {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       if (this.state.playButtonLabel == "PLAY") {
-        ReactNativeAudioStreaming.play(url);
+        ReactNativeAudioStreaming.play(url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
         this.setState({
             playButtonLabel: "PAUSE"
         })
