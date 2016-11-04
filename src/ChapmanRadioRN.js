@@ -27,7 +27,7 @@ const PlayButton = MKButton.coloredFab()
       width: 100,
       height: 100
    })
-  .withBackgroundColor(MKColor.Cyan)
+  .withBackgroundColor('#92f7fc')
   .withStyle({
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 0.5 },
@@ -111,6 +111,7 @@ class ChapmanRadioRN extends Component {
     }
 
     componentWillMount() {
+      this.refresh()
       setInterval(() => {
         this.refresh()
       }, 10000)
@@ -162,7 +163,8 @@ class ChapmanRadioRN extends Component {
 
         this.setState({
 
-          songText: "No song playing currently"
+          songText: "No song playing currently",
+          songPic: "."
 
         });
 
