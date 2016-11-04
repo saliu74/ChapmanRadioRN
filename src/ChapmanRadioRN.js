@@ -32,7 +32,7 @@ const PlayButton = MKButton.coloredFab()
       width: 100,
       height: 100
    })
-  .withBackgroundColor('#92f7fc')
+  .withBackgroundColor('#d5d4f7')
   .withStyle({
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 0.5 },
@@ -106,7 +106,16 @@ class ChapmanRadioRN extends Component {
 
 
               </View>
-                <Text tabLabel='Schedule'/>
+
+
+              <View tabLabel='Schedule' style={Style.rootContainer}>
+
+                
+
+
+              </View>
+
+
               </ScrollableTabView>
             </View>
         )
