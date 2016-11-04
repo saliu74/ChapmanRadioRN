@@ -111,6 +111,7 @@ class ChapmanRadioRN extends Component {
     }
 
     componentWillMount() {
+      this.refresh()
       setInterval(() => {
         this.refresh()
       }, 10000)
