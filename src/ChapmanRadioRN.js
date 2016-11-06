@@ -155,14 +155,13 @@ class ChapmanRadioRN extends Component {
 
     getSchedule() {
 
-      fetch("http://api.chapmanradio.com/legacy/schedule.json")
-        .then((response) => response.text())
+      fetch("https://api.chapmanradio.com/legacy/schedule.json")
+        .then((response) => response.json())
         .then((responseData) => {
+          console.log(responseData)
           this.setState({scheduleJSON: responseData});
         })
         .done();
-
-      console.log(this.state.showJSON)
 
       /*contents = this.state.list.results.map(function (item) {
         return (
