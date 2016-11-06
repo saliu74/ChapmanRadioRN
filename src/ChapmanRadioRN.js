@@ -55,7 +55,9 @@ class ChapmanRadioRN extends Component {
 
           songJSON: "",
           songPic: ".",
-          songText: ""
+          songText: "",
+
+          scheduleJSON: ""
 
         }
     }
@@ -77,13 +79,13 @@ class ChapmanRadioRN extends Component {
 
 
                   <View style={Style.playContainer}>
-                  <PlayButton
-                    onPress={() => {
-                      this._onPlayButtonPressed();
-                    }}
-                  >
-                    <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
-                  </PlayButton>
+                    <PlayButton
+                      onPress={() => {
+                        this._onPlayButtonPressed();
+                      }}
+                    >
+                      <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
+                    </PlayButton>
                   </View>
                   <ScrollView style={Style.cardContainer}>
                     <View style={Style.card1}>
@@ -110,7 +112,10 @@ class ChapmanRadioRN extends Component {
 
               <View tabLabel='Schedule' style={Style.rootContainer}>
 
-                
+                <ScrollView style={Style.scheduleRootContainer}>
+
+
+                </ScrollView>
 
 
               </View>
@@ -145,7 +150,52 @@ class ChapmanRadioRN extends Component {
     }
 
     componentDidMount() {
+      this.getSchedule()
+    }
 
+    getSchedule() {
+
+      fetch("http://api.chapmanradio.com/legacy/schedule.json")
+        .then((response) => response.text())
+        .then((responseData) => {
+          this.setState({scheduleJSON: responseData});
+        })
+        .done();
+
+      console.log(this.state.showJSON)
+
+      /*contents = this.state.list.results.map(function (item) {
+        return (
+          <View key={item.user.email} style={ styles.content }>
+            <Text>{item.user.email}</Text>
+          </View>
+        );
+     });
+     return (
+      <View style={ styles.container }>
+        <View style={ styles.header }>
+        <Text style={ styles.headerText }></Text>
+        </View>
+        <View style={ styles.content }>
+            { contents }
+        </View>
+      </View>
+
+
+      var data = JSON.parse('{"c":{"a":{"name":"cable - black","value":2}}}')
+
+for (var event in data) {
+    var dataCopy = data[event];
+    for (data in dataCopy) {
+        var mainData = dataCopy[data];
+        for (key in mainData) {
+            if (key.match(/name|value/)) {
+                alert('key : ' + key + ':: value : ' + mainData[key])
+            }
+        }
+    }
+}​
+      */
     }
 
     refresh() {
@@ -167,7 +217,7 @@ class ChapmanRadioRN extends Component {
         this.setState({
 
           showPic: "https://" + (this.state.showJSON.pic).slice(2),
-          showText: this.state.showJSON.showname + " featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+          showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
 
         });
 
@@ -180,7 +230,7 @@ class ChapmanRadioRN extends Component {
         this.setState({
 
           songPic: this.state.songJSON.img200,
-          songText: this.state.songJSON.track + " by " + this.state.songJSON.artist
+          songText: "\"" + this.state.songJSON.track + "\" by " + this.state.songJSON.artist
 
         });
 

@@ -10,6 +10,10 @@ var Style = StyleSheet.create({
         alignItems: 'center'
     },
 
+    scheduleRootContainer: {
+      flex: 1
+    },
+
     buttonText: {
       fontSize: 20,
       fontWeight: 'bold',
@@ -45,6 +49,13 @@ var Style = StyleSheet.create({
       flex: 1,
       height: 170,
       resizeMode: 'contain'
+    },
+
+    scheduleCard: {
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingLeft: 30,
+      paddingRight: 30
     }
 
 });
