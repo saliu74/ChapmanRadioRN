@@ -143,14 +143,23 @@ class ChapmanRadioRN extends Component {
     }
 
     componentWillMount() {
-      this.refresh()
+      this.getSchedule()
       setInterval(() => {
         this.refresh()
-      }, 10000)
+      }, 1000)
     }
 
     componentDidMount() {
-      this.getSchedule()
+    }
+
+    // Populates some render thing with views to creat schedule scroll view with material cards
+    makeSchedule() {
+
+      for (var i in this.state.scheduleJSON) {
+        console.log(this.state.scheduleJSON[i])
+      }
+      console.log(this.state.scheduleJSON)
+
     }
 
     getSchedule() {
@@ -159,12 +168,9 @@ class ChapmanRadioRN extends Component {
         .then((response) => response.json())
         .then((responseData) => {
 
-          for (var i in responseData) {
-            console.log(responseData[i])
-          }
-          console.log(responseData)
-          
           this.setState({scheduleJSON: responseData});
+          this.makeSchedule()
+
         })
         .done();
 
@@ -209,73 +215,76 @@ for (var event in data) {
         .then((responseData) => {
           this.setState({songJSON: responseData.nowplaying});
           this.setState({showJSON: responseData.show});
+
+          // Live Show
+
+          if (this.state.showJSON.showname != null) {
+
+            this.setState({
+
+              showPic: "https://" + (this.state.showJSON.pic).slice(2),
+              showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+
+            });
+
+          }
+
+          // Song
+
+          if (this.state.songJSON.track != null) {
+
+            this.setState({
+
+              songPic: this.state.songJSON.img200,
+              songText: "\"" + this.state.songJSON.track + "\" by " + this.state.songJSON.artist
+
+            });
+
+          }
+
+          if (this.state.songJSON.track == null && this.state.songJSON.type != "talk") {
+
+            this.setState({
+
+              songText: "No song playing currently",
+              songPic: "."
+
+            });
+
+          }
+
+          if (this.state.songJSON.type == "talk") {
+
+            this.setState({
+
+              songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
+              songText: "Topic: " + this.state.songJSON.text
+
+            });
+
+          }
+
+          // Automation
+
+          if (this.state.showJSON.showname == null) {
+
+            this.setState({
+
+              showText: "Automation",
+              songText: "Automation",
+              showPic: ".",
+              songPic: "."
+
+            });
+
+          }
+
         })
         .done();
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-      // Live Show
 
-      if (this.state.showJSON.showname != null) {
-
-        this.setState({
-
-          showPic: "https://" + (this.state.showJSON.pic).slice(2),
-          showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
-
-        });
-
-      }
-
-      // Song
-
-      if (this.state.songJSON.track != null) {
-
-        this.setState({
-
-          songPic: this.state.songJSON.img200,
-          songText: "\"" + this.state.songJSON.track + "\" by " + this.state.songJSON.artist
-
-        });
-
-      }
-
-      if (this.state.songJSON.track == null && this.state.songJSON.type != "talk") {
-
-        this.setState({
-
-          songText: "No song playing currently",
-          songPic: "."
-
-        });
-
-      }
-
-      if (this.state.songJSON.type == "talk") {
-
-        this.setState({
-
-          songPic: "https://chapmanradio.com" + this.state.songJSON.img200,
-          songText: "Topic: " + this.state.songJSON.text
-
-        });
-
-      }
-
-      // Automation
-
-      if (this.state.showJSON.showname == null) {
-
-        this.setState({
-
-          showText: "Automation",
-          songText: "Automation",
-          showPic: ".",
-          songPic: "."
-
-        });
-
-      }
     }
 
 }
