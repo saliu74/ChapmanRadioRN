@@ -58,8 +58,8 @@ class ChapmanRadioRN extends Component {
           songText: "",
 
           scheduleJSON: "",
-          scheduleHead: [],
-          scheduleBody: []
+          scheduleArray: [],
+          scheduleView: ""
 
         }
     }
@@ -113,13 +113,9 @@ class ChapmanRadioRN extends Component {
 
 
               <View tabLabel='Schedule' style={Style.rootContainer}>
-
-                <ScrollView style={Style.scheduleRootContainer}>
-
-
+                <ScrollView style={Style.scheduleContainer}>
+                  {this.state.scheduleView}
                 </ScrollView>
-
-
               </View>
 
 
@@ -158,11 +154,45 @@ class ChapmanRadioRN extends Component {
     makeSchedule() {
 
       for (var i in this.state.scheduleJSON) {
-        this.state.scheduleHead.push(this.state.scheduleJSON[i].title)
-        this.state.scheduleBody.push(this.state.scheduleJSON[i].data)
+        this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
+        this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
       }
-      console.log(this.state.scheduleHead)
-      console.log(this.state.scheduleBody)
+      console.log(this.state.scheduleArray)
+
+      var evens = true
+      const theme = getTheme();
+
+      var contents = this.state.scheduleArray.map(function (item) {
+
+        	if (evens) {
+            evens = false
+
+            return (
+              <Text style={Style.sectionHead}>{item}</Text>
+            );
+          }
+        	else {
+            evens = true
+
+            var contentsTemp = item.map(function (item) {
+              return (
+                <View style={Style.scheduleCard}>
+                  <View style={theme.cardStyle}>
+                    <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                    <Text style={theme.cardContentStyle}>
+                      {item[1]}
+                    </Text>
+                  </View>
+                </View>
+              );
+            });
+            return (
+              contentsTemp
+            );
+          }
+       });
+
+       this.state.scheduleView = contents
 
     }
 
@@ -178,7 +208,9 @@ class ChapmanRadioRN extends Component {
         })
         .done();
 
-      /*contents = this.state.list.results.map(function (item) {
+      /*
+      soo ya just keep populating contents with section headers and show cards
+      contents = this.state.list.results.map(function (item) {
         return (
           <View key={item.user.email} style={ styles.content }>
             <Text>{item.user.email}</Text>

@@ -51,6 +51,17 @@ var Style = StyleSheet.create({
       resizeMode: 'contain'
     },
 
+    scheduleContainer: {
+      flex: 1
+    },
+
+    sectionHead: {
+      fontSize: 16,
+      textAlign: 'left',
+      paddingTop: 20,
+      paddingBottom: 20
+    },
+
     scheduleCard: {
       paddingTop: 20,
       paddingBottom: 20,
