@@ -320,7 +320,8 @@ for (var event in data) {
         .done();
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
     }
 
