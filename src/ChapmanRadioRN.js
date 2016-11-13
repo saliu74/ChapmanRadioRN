@@ -159,7 +159,6 @@ class ChapmanRadioRN extends Component {
         this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
         this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
       }
-      console.log(this.state.scheduleArray)
 
       var evens = true
       const theme = getTheme();
@@ -170,7 +169,7 @@ class ChapmanRadioRN extends Component {
             evens = false
 
             return (
-              <Text style={Style.sectionHead}>{item}</Text>
+              <Text style={Style.sectionHead} key={item}>{item}</Text>
             );
           }
         	else {
@@ -179,7 +178,7 @@ class ChapmanRadioRN extends Component {
             var contentsTemp = item.map(function (item) {
               var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
               return (
-                <View style={Style.scheduleCard}>
+                <View style={Style.scheduleCard} key={item[1]}>
                   <View style={theme.cardStyle}>
                     <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                     <Text style={theme.cardContentStyle}>
@@ -315,8 +314,8 @@ for (var event in data) {
 
               showText: "                  Automation                  ",
               songText: "                  Automation                  ",
-              showPic: ".",
-              songPic: "."
+              songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
+              showPic: "https://chapmanradio.com/img/tracks/!default/200.png"
 
             });
 
