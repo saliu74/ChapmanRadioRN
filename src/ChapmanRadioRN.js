@@ -126,6 +126,8 @@ class ChapmanRadioRN extends Component {
 
     _onPlayButtonPressed() {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       if (this.state.playButtonLabel == "PLAY") {
         ReactNativeAudioStreaming.play(url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
         this.setState({
@@ -192,6 +194,10 @@ class ChapmanRadioRN extends Component {
             );
           }
        });
+
+       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+       // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
        this.state.scheduleView = contents
 
@@ -307,8 +313,8 @@ for (var event in data) {
 
             this.setState({
 
-              showText: "Automation",
-              songText: "Automation",
+              showText: "                  Automation                  ",
+              songText: "                  Automation                  ",
               showPic: ".",
               songPic: "."
 
