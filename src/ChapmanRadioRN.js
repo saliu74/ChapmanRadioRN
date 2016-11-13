@@ -32,7 +32,7 @@ const PlayButton = MKButton.coloredFab()
       width: 100,
       height: 100
    })
-  .withBackgroundColor('#92f7fc')
+  .withBackgroundColor('#d5d4f7')
   .withStyle({
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 0.5 },
@@ -55,7 +55,11 @@ class ChapmanRadioRN extends Component {
 
           songJSON: "",
           songPic: ".",
-          songText: ""
+          songText: "",
+
+          scheduleJSON: "",
+          scheduleArray: [],
+          scheduleView: ""
 
         }
     }
@@ -77,13 +81,13 @@ class ChapmanRadioRN extends Component {
 
 
                   <View style={Style.playContainer}>
-                  <PlayButton
-                    onPress={() => {
-                      this._onPlayButtonPressed();
-                    }}
-                  >
-                    <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
-                  </PlayButton>
+                    <PlayButton
+                      onPress={() => {
+                        this._onPlayButtonPressed();
+                      }}
+                    >
+                      <Text style={Style.buttonText}>{this.state.playButtonLabel}</Text>
+                    </PlayButton>
                   </View>
                   <ScrollView style={Style.cardContainer}>
                     <View style={Style.card1}>
@@ -106,7 +110,15 @@ class ChapmanRadioRN extends Component {
 
 
               </View>
-                <Text tabLabel='Schedule'/>
+
+
+              <View tabLabel='Schedule' style={Style.rootContainer}>
+                <ScrollView style={Style.scheduleContainer}>
+                  {this.state.scheduleView}
+                </ScrollView>
+              </View>
+
+
               </ScrollableTabView>
             </View>
         )
@@ -129,14 +141,108 @@ class ChapmanRadioRN extends Component {
     }
 
     componentWillMount() {
-      this.refresh()
+      this.getSchedule()
       setInterval(() => {
         this.refresh()
-      }, 10000)
+      }, 1000)
     }
 
     componentDidMount() {
+    }
 
+    // Populates some render thing with views to creat schedule scroll view with material cards
+    makeSchedule() {
+
+      for (var i in this.state.scheduleJSON) {
+        this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
+        this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
+      }
+      console.log(this.state.scheduleArray)
+
+      var evens = true
+      const theme = getTheme();
+
+      var contents = this.state.scheduleArray.map(function (item) {
+
+        	if (evens) {
+            evens = false
+
+            return (
+              <Text style={Style.sectionHead}>{item}</Text>
+            );
+          }
+        	else {
+            evens = true
+
+            var contentsTemp = item.map(function (item) {
+              var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+              return (
+                <View style={Style.scheduleCard}>
+                  <View style={theme.cardStyle}>
+                    <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                    <Text style={theme.cardContentStyle}>
+                      {scheduleText}
+                    </Text>
+                  </View>
+                </View>
+              );
+            });
+            return (
+              contentsTemp
+            );
+          }
+       });
+
+       this.state.scheduleView = contents
+
+    }
+
+    getSchedule() {
+
+      fetch("https://api.chapmanradio.com/legacy/schedule.json")
+        .then((response) => response.json())
+        .then((responseData) => {
+
+          this.setState({scheduleJSON: responseData});
+          this.makeSchedule()
+
+        })
+        .done();
+
+      /*
+      soo ya just keep populating contents with section headers and show cards
+      contents = this.state.list.results.map(function (item) {
+        return (
+          <View key={item.user.email} style={ styles.content }>
+            <Text>{item.user.email}</Text>
+          </View>
+        );
+     });
+     return (
+      <View style={ styles.container }>
+        <View style={ styles.header }>
+        <Text style={ styles.headerText }></Text>
+        </View>
+        <View style={ styles.content }>
+            { contents }
+        </View>
+      </View>
+
+
+      var data = JSON.parse('{"c":{"a":{"name":"cable - black","value":2}}}')
+
+for (var event in data) {
+    var dataCopy = data[event];
+    for (data in dataCopy) {
+        var mainData = dataCopy[data];
+        for (key in mainData) {
+            if (key.match(/name|value/)) {
+                alert('key : ' + key + ':: value : ' + mainData[key])
+            }
+        }
+    }
+}​
+      */
     }
 
     refresh() {
@@ -146,73 +252,77 @@ class ChapmanRadioRN extends Component {
         .then((responseData) => {
           this.setState({songJSON: responseData.nowplaying});
           this.setState({showJSON: responseData.show});
+
+          // Live Show
+
+          if (this.state.showJSON.showname != null) {
+
+            this.setState({
+
+              showPic: "https://" + (this.state.showJSON.pic).slice(2),
+              showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+
+            });
+
+          }
+
+          // Song
+
+          if (this.state.songJSON.track != null) {
+
+            this.setState({
+
+              songPic: this.state.songJSON.img200,
+              songText: "\"" + this.state.songJSON.track + "\" by " + this.state.songJSON.artist
+
+            });
+
+          }
+
+          if (this.state.songJSON.track == null && this.state.songJSON.type != "talk") {
+
+            this.setState({
+
+              songText: "No song playing currently",
+              songPic: "."
+
+            });
+
+          }
+
+          if (this.state.songJSON.type == "talk") {
+
+            this.setState({
+
+              songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
+              songText: "Topic: " + this.state.songJSON.text
+
+            });
+
+          }
+
+          // Automation
+
+          if (this.state.showJSON.showname == null) {
+
+            this.setState({
+
+              showText: "Automation",
+              songText: "Automation",
+              showPic: ".",
+              songPic: "."
+
+            });
+
+          }
+
         })
         .done();
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+      // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
-      // Live Show
-
-      if (this.state.showJSON.showname != null) {
-
-        this.setState({
-
-          showPic: "https://" + (this.state.showJSON.pic).slice(2),
-          showText: this.state.showJSON.showname + " featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
-
-        });
-
-      }
-
-      // Song
-
-      if (this.state.songJSON.track != null) {
-
-        this.setState({
-
-          songPic: this.state.songJSON.img200,
-          songText: this.state.songJSON.track + " by " + this.state.songJSON.artist
-
-        });
-
-      }
-
-      if (this.state.songJSON.track == null && this.state.songJSON.type != "talk") {
-
-        this.setState({
-
-          songText: "No song playing currently",
-          songPic: "."
-
-        });
-
-      }
-
-      if (this.state.songJSON.type == "talk") {
-
-        this.setState({
-
-          songPic: "https://chapmanradio.com" + this.state.songJSON.img200,
-          songText: "Topic: " + this.state.songJSON.text
-
-        });
-
-      }
-
-      // Automation
-
-      if (this.state.showJSON.showname == null) {
-
-        this.setState({
-
-          showText: "Automation",
-          songText: "Automation",
-          showPic: ".",
-          songPic: "."
-
-        });
-
-      }
     }
 
 }
