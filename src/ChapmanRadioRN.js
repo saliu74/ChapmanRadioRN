@@ -175,12 +175,13 @@ class ChapmanRadioRN extends Component {
             evens = true
 
             var contentsTemp = item.map(function (item) {
+              var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
               return (
                 <View style={Style.scheduleCard}>
                   <View style={theme.cardStyle}>
                     <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                     <Text style={theme.cardContentStyle}>
-                      {item[1]}
+                      {scheduleText}
                     </Text>
                   </View>
                 </View>

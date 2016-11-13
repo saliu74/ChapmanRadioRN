@@ -56,8 +56,11 @@ var Style = StyleSheet.create({
     },
 
     sectionHead: {
-      fontSize: 16,
-      textAlign: 'left',
+      fontSize: 22,
+      fontWeight: '200',
+      textAlign: 'center',
+      backgroundColor: '#f2f2f2',
+      color: '#0f0f0f',
       paddingTop: 20,
       paddingBottom: 20
     },
