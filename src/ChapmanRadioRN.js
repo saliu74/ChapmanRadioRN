@@ -57,7 +57,9 @@ class ChapmanRadioRN extends Component {
           songPic: ".",
           songText: "",
 
-          scheduleJSON: ""
+          scheduleJSON: "",
+          scheduleHead: [],
+          scheduleBody: []
 
         }
     }
@@ -156,9 +158,11 @@ class ChapmanRadioRN extends Component {
     makeSchedule() {
 
       for (var i in this.state.scheduleJSON) {
-        console.log(this.state.scheduleJSON[i])
+        this.state.scheduleHead.push(this.state.scheduleJSON[i].title)
+        this.state.scheduleBody.push(this.state.scheduleJSON[i].data)
       }
-      console.log(this.state.scheduleJSON)
+      console.log(this.state.scheduleHead)
+      console.log(this.state.scheduleBody)
 
     }
 
