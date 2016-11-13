@@ -21,13 +21,13 @@ var Style = StyleSheet.create({
     },
 
     playContainer: {
-      flex: 3,
+      flex: 2.9,
       alignItems: 'center',
       justifyContent: 'center'
     },
 
     cardContainer: {
-      flex: 7,
+      flex: 7.1,
       flexDirection: 'column'
     },
 
