@@ -216,40 +216,6 @@ class ChapmanRadioRN extends Component {
         })
         .done();
 
-      /*
-      soo ya just keep populating contents with section headers and show cards
-      contents = this.state.list.results.map(function (item) {
-        return (
-          <View key={item.user.email} style={ styles.content }>
-            <Text>{item.user.email}</Text>
-          </View>
-        );
-     });
-     return (
-      <View style={ styles.container }>
-        <View style={ styles.header }>
-        <Text style={ styles.headerText }></Text>
-        </View>
-        <View style={ styles.content }>
-            { contents }
-        </View>
-      </View>
-
-
-      var data = JSON.parse('{"c":{"a":{"name":"cable - black","value":2}}}')
-
-for (var event in data) {
-    var dataCopy = data[event];
-    for (data in dataCopy) {
-        var mainData = dataCopy[data];
-        for (key in mainData) {
-            if (key.match(/name|value/)) {
-                alert('key : ' + key + ':: value : ' + mainData[key])
-            }
-        }
-    }
-}​
-      */
     }
 
     refresh() {
