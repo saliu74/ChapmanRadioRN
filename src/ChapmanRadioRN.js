@@ -48,7 +48,7 @@ class ChapmanRadioRN extends Component {
         super(props);
 
         this.state = {
-          playButtonLabel: "PLAY",
+          playButtonLabel: " PLAY ",
           showJSON: "",
           showPic: ".",
           showText: "",
@@ -128,10 +128,15 @@ class ChapmanRadioRN extends Component {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-      if (this.state.playButtonLabel == "PLAY") {
+      if (this.state.playButtonLabel == " PLAY ") {
         ReactNativeAudioStreaming.play(url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
         this.setState({
             playButtonLabel: "PAUSE"
+        })
+      } else if (this.state.playButtonLabel == "PLAY") {
+        ReactNativeAudioStreaming.resume();
+        this.setState({
+          playButtonLabel: "PAUSE"
         })
       }
       else {
