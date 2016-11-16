@@ -129,6 +129,7 @@ class ChapmanRadioRN extends Component {
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       if (this.state.playButtonLabel == " PLAY ") {
+        ReactNativeAudioStreaming.stop();
         ReactNativeAudioStreaming.play(url, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
         this.setState({
             playButtonLabel: "PAUSE"
