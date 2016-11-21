@@ -7,6 +7,7 @@ import {
     LayoutAnimation,
     Image,
     ScrollView,
+    TextInput,
     AppRegistry
 } from 'react-native';
 
@@ -32,7 +33,7 @@ const PlayButton = MKButton.coloredFab()
       width: 100,
       height: 100
    })
-  .withBackgroundColor('#d5d4f7')
+  .withBackgroundColor('#A8D689')
   .withStyle({
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 0.5 },
@@ -59,7 +60,12 @@ class ChapmanRadioRN extends Component {
 
           scheduleJSON: "",
           scheduleArray: [],
-          scheduleView: ""
+          scheduleView: "",
+
+          oldSongJSON: "",
+          oldShowJSON: "",
+
+          tabSwitchLocked: true
 
         }
     }
@@ -76,6 +82,7 @@ class ChapmanRadioRN extends Component {
                 style={{marginTop: 20, }}
                 initialPage={0}
                 renderTabBar={() => <ScrollableTabBar />}
+                locked={this.state.tabSwitchLocked}
               >
                 <View tabLabel='Player' style={Style.rootContainer}>
 
@@ -112,7 +119,14 @@ class ChapmanRadioRN extends Component {
               </View>
 
 
-              <View tabLabel='Schedule' style={Style.rootContainer}>
+              <View tabLabel='Schedule' style={Style.scheduleRootContainer}>
+                <TextInput
+                  style={Style.searchField}
+                  onChangeText={(text) => this.makeSchedule(text)}
+                  value={this.state.text}
+                  placeholder="Search..."
+                  underlineColorAndroid='transparent'
+                />
                 <ScrollView style={Style.scheduleContainer}>
                   {this.state.scheduleView}
                 </ScrollView>
@@ -159,51 +173,106 @@ class ChapmanRadioRN extends Component {
     }
 
     // Populates some render thing with views to creat schedule scroll view with material cards
-    makeSchedule() {
+    makeSchedule(searchStr) {
 
-      for (var i in this.state.scheduleJSON) {
-        this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
-        this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
-      }
-
-      var evens = true
       const theme = getTheme();
+      var evens = true
 
-      var contents = this.state.scheduleArray.map(function (item) {
+      if (searchStr == "") {
 
-        	if (evens) {
-            evens = false
+        for (var i in this.state.scheduleJSON) {
+          this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
+          this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
+        }
 
-            return (
-              <Text style={Style.sectionHead} key={item}>{item}</Text>
-            );
-          }
-        	else {
-            evens = true
+          var contents = this.state.scheduleArray.map(function (item) {
 
-            var contentsTemp = item.map(function (item) {
-              var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
-              return (
-                <View style={Style.scheduleCard} key={item[1] + item[2]}>
-                  <View style={theme.cardStyle}>
-                    <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
-                    <Text style={theme.cardContentStyle}>
-                      {scheduleText}
-                    </Text>
-                  </View>
-                </View>
-              );
-            });
-            return (
-              contentsTemp
-            );
-          }
-       });
+            	if (evens) {
+                evens = false
 
+                return (
+                  <Text style={Style.sectionHead} key={item}>{item}</Text>
+                );
+              }
+            	else {
+                evens = true
+
+                var contentsTemp = item.map(function (item) {
+                  var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+                  return (
+                    <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                        <Text style={theme.cardContentStyle}>
+                          {scheduleText}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                });
+                return (
+                  contentsTemp
+                );
+              }
+           });
+
+     } else {
+
+       var contents = this.state.scheduleArray.map(function (item) {
+
+         if (evens) {
+           evens = false
+         }
+
+         else {
+           evens = true
+
+           var contentsTemp = item.map(function (item) {
+
+             if (item[1].toLowerCase().includes(searchStr.toLowerCase())) {
+
+               var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+               return (
+                 <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                   <View style={theme.cardStyle}>
+                     <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                     <Text style={theme.cardContentStyle}>
+                       {scheduleText}
+                     </Text>
+                   </View>
+                 </View>
+               );
+
+             }
+
+             else {
+
+               return (
+                 <View style={Style.discardCard} key={item[1] + item[2]}>
+                 </View>
+               );
+
+
+             }
+
+
+             });
+
+
+           }
+
+             //end of contentsTemp
+             return (
+               contentsTemp
+             );
+
+        });
+
+     }
        this.state.scheduleView = contents
 
     }
-
+    
     getSchedule() {
 
       fetch("https://api.chapmanradio.com/legacy/schedule.json")
@@ -211,7 +280,8 @@ class ChapmanRadioRN extends Component {
         .then((responseData) => {
 
           this.setState({scheduleJSON: responseData});
-          this.makeSchedule()
+          this.makeSchedule("")
+          this.setState({tabSwitchLocked: false});
 
         })
         .done();
@@ -223,21 +293,44 @@ class ChapmanRadioRN extends Component {
       fetch("http://api.chapmanradio.com/legacy/livestreams.json")
         .then((response) => response.json())
         .then((responseData) => {
+          this.setState({oldSongJSON: this.state.songJSON})
+          this.setState({oldShowJSON: this.state.showJSON})
           this.setState({songJSON: responseData.nowplaying});
           this.setState({showJSON: responseData.show});
 
-          // Live Show
+          if (this.state.oldShowJSON != this.state.showJSON) {
 
-          if (this.state.showJSON.showname != null) {
+            // Live Show
 
-            this.setState({
+            if (this.state.showJSON.showname != null) {
 
-              showPic: "https://" + (this.state.showJSON.pic).slice(2),
-              showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+              this.setState({
 
-            });
+                showPic: "https://" + (this.state.showJSON.pic).slice(2),
+                showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+
+              });
+
+            }
+
+            // Automation
+
+            if (this.state.showJSON.showname == null) {
+
+              this.setState({
+
+                showText: "                  Automation                  ",
+                songText: "                  Automation                  ",
+                songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
+                showPic: "https://chapmanradio.com/img/tracks/!default/200.png"
+
+              });
+
+            }
 
           }
+
+        if (this.state.oldSongJSON != this.state.songJSON && this.state.showJSON.showname != null) {
 
           // Song
 
@@ -274,20 +367,7 @@ class ChapmanRadioRN extends Component {
 
           }
 
-          // Automation
-
-          if (this.state.showJSON.showname == null) {
-
-            this.setState({
-
-              showText: "                  Automation                  ",
-              songText: "                  Automation                  ",
-              songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
-              showPic: "https://chapmanradio.com/img/tracks/!default/200.png"
-
-            });
-
-          }
+        }
 
         })
         .done();
