@@ -7,6 +7,7 @@ import {
     LayoutAnimation,
     Image,
     ScrollView,
+    TextInput,
     AppRegistry
 } from 'react-native';
 
@@ -113,6 +114,12 @@ class ChapmanRadioRN extends Component {
 
 
               <View tabLabel='Schedule' style={Style.rootContainer}>
+                <TextInput
+                  style={{height: 40, borderColor: '#f2f2f2', borderWidth: 1}}
+                  onChangeText={(text) => this.makeSchedule(text)}
+                  value={this.state.text}
+                  placeholder="Search..."
+                />
                 <ScrollView style={Style.scheduleContainer}>
                   {this.state.scheduleView}
                 </ScrollView>
@@ -159,47 +166,102 @@ class ChapmanRadioRN extends Component {
     }
 
     // Populates some render thing with views to creat schedule scroll view with material cards
-    makeSchedule() {
+    makeSchedule(searchStr) {
 
-      for (var i in this.state.scheduleJSON) {
-        this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
-        this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
-      }
-
-      var evens = true
       const theme = getTheme();
+      var evens = true
 
-      var contents = this.state.scheduleArray.map(function (item) {
+      if (searchStr == "") {
 
-        	if (evens) {
-            evens = false
+        for (var i in this.state.scheduleJSON) {
+          this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
+          this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
+        }
 
-            return (
-              <Text style={Style.sectionHead} key={item}>{item}</Text>
-            );
-          }
-        	else {
-            evens = true
+          var contents = this.state.scheduleArray.map(function (item) {
 
-            var contentsTemp = item.map(function (item) {
-              var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
-              return (
-                <View style={Style.scheduleCard} key={item[1] + item[2]}>
-                  <View style={theme.cardStyle}>
-                    <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
-                    <Text style={theme.cardContentStyle}>
-                      {scheduleText}
-                    </Text>
-                  </View>
-                </View>
-              );
-            });
-            return (
-              contentsTemp
-            );
-          }
-       });
+            	if (evens) {
+                evens = false
 
+                return (
+                  <Text style={Style.sectionHead} key={item}>{item}</Text>
+                );
+              }
+            	else {
+                evens = true
+
+                var contentsTemp = item.map(function (item) {
+                  var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+                  return (
+                    <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                      <View style={theme.cardStyle}>
+                        <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                        <Text style={theme.cardContentStyle}>
+                          {scheduleText}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                });
+                return (
+                  contentsTemp
+                );
+              }
+           });
+
+     } else {
+
+       var contents = this.state.scheduleArray.map(function (item) {
+
+         if (evens) {
+           evens = false
+         }
+
+         else {
+           evens = true
+
+           var contentsTemp = item.map(function (item) {
+
+             if (item[1].toLowerCase().includes(searchStr.toLowerCase()) && evens) {
+
+               var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+               return (
+                 <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                   <View style={theme.cardStyle}>
+                     <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                     <Text style={theme.cardContentStyle}>
+                       {scheduleText}
+                     </Text>
+                   </View>
+                 </View>
+               );
+
+             }
+
+             else {
+
+               return (
+                 <View style={Style.discardCard} key={item[1] + item[2]}>
+                 </View>
+               );
+
+
+             }
+
+
+             });
+
+
+           }
+
+             //end of contentsTemp
+             return (
+               contentsTemp
+             );
+
+        });
+
+     }
        this.state.scheduleView = contents
 
     }
@@ -211,7 +273,7 @@ class ChapmanRadioRN extends Component {
         .then((responseData) => {
 
           this.setState({scheduleJSON: responseData});
-          this.makeSchedule()
+          this.makeSchedule("")
 
         })
         .done();

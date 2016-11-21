@@ -70,6 +70,10 @@ var Style = StyleSheet.create({
       paddingBottom: 20,
       paddingLeft: 30,
       paddingRight: 30
+    },
+
+    discardCard: {
+      height: 0
     }
 
 });
