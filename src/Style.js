@@ -11,7 +11,8 @@ var Style = StyleSheet.create({
     },
 
     scheduleRootContainer: {
-      flex: 1
+      flex: 1,
+      alignItems: 'flex-start'
     },
 
     buttonText: {
@@ -74,6 +75,11 @@ var Style = StyleSheet.create({
 
     discardCard: {
       height: 0
+    },
+
+    searchField: {
+      height: 40,
+      width: 500
     }
 
 });

@@ -62,6 +62,9 @@ class ChapmanRadioRN extends Component {
           scheduleArray: [],
           scheduleView: "",
 
+          oldSongJSON: "",
+          oldShowJSON: "",
+
           tabSwitchLocked: true
 
         }
@@ -116,12 +119,13 @@ class ChapmanRadioRN extends Component {
               </View>
 
 
-              <View tabLabel='Schedule' style={Style.rootContainer}>
+              <View tabLabel='Schedule' style={Style.scheduleRootContainer}>
                 <TextInput
-                  style={{height: 40, borderColor: '#f2f2f2', borderWidth: 1}}
+                  style={Style.searchField}
                   onChangeText={(text) => this.makeSchedule(text)}
                   value={this.state.text}
                   placeholder="Search..."
+                  underlineColorAndroid='transparent'
                 />
                 <ScrollView style={Style.scheduleContainer}>
                   {this.state.scheduleView}
@@ -225,7 +229,7 @@ class ChapmanRadioRN extends Component {
 
            var contentsTemp = item.map(function (item) {
 
-             if (item[1].toLowerCase().includes(searchStr.toLowerCase()) && evens) {
+             if (item[1].toLowerCase().includes(searchStr.toLowerCase())) {
 
                var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
                return (
@@ -268,7 +272,7 @@ class ChapmanRadioRN extends Component {
        this.state.scheduleView = contents
 
     }
-
+    
     getSchedule() {
 
       fetch("https://api.chapmanradio.com/legacy/schedule.json")
@@ -289,21 +293,44 @@ class ChapmanRadioRN extends Component {
       fetch("http://api.chapmanradio.com/legacy/livestreams.json")
         .then((response) => response.json())
         .then((responseData) => {
+          this.setState({oldSongJSON: this.state.songJSON})
+          this.setState({oldShowJSON: this.state.showJSON})
           this.setState({songJSON: responseData.nowplaying});
           this.setState({showJSON: responseData.show});
 
-          // Live Show
+          if (this.state.oldShowJSON != this.state.showJSON) {
 
-          if (this.state.showJSON.showname != null) {
+            // Live Show
 
-            this.setState({
+            if (this.state.showJSON.showname != null) {
 
-              showPic: "https://" + (this.state.showJSON.pic).slice(2),
-              showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+              this.setState({
 
-            });
+                showPic: "https://" + (this.state.showJSON.pic).slice(2),
+                showText: "\"" + this.state.showJSON.showname + "\" featuring " + this.state.showJSON.djs + ": " + this.state.showJSON.description
+
+              });
+
+            }
+
+            // Automation
+
+            if (this.state.showJSON.showname == null) {
+
+              this.setState({
+
+                showText: "                  Automation                  ",
+                songText: "                  Automation                  ",
+                songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
+                showPic: "https://chapmanradio.com/img/tracks/!default/200.png"
+
+              });
+
+            }
 
           }
+
+        if (this.state.oldSongJSON != this.state.songJSON && this.state.showJSON.showname != null) {
 
           // Song
 
@@ -340,20 +367,7 @@ class ChapmanRadioRN extends Component {
 
           }
 
-          // Automation
-
-          if (this.state.showJSON.showname == null) {
-
-            this.setState({
-
-              showText: "                  Automation                  ",
-              songText: "                  Automation                  ",
-              songPic: "https://chapmanradio.com/img/tracks/!default/200.png",
-              showPic: "https://chapmanradio.com/img/tracks/!default/200.png"
-
-            });
-
-          }
+        }
 
         })
         .done();
