@@ -60,7 +60,9 @@ class ChapmanRadioRN extends Component {
 
           scheduleJSON: "",
           scheduleArray: [],
-          scheduleView: ""
+          scheduleView: "",
+
+          tabSwitchLocked: true
 
         }
     }
@@ -77,6 +79,7 @@ class ChapmanRadioRN extends Component {
                 style={{marginTop: 20, }}
                 initialPage={0}
                 renderTabBar={() => <ScrollableTabBar />}
+                locked={this.state.tabSwitchLocked}
               >
                 <View tabLabel='Player' style={Style.rootContainer}>
 
@@ -274,6 +277,7 @@ class ChapmanRadioRN extends Component {
 
           this.setState({scheduleJSON: responseData});
           this.makeSchedule("")
+          this.setState({tabSwitchLocked: false});
 
         })
         .done();
