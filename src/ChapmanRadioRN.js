@@ -32,7 +32,7 @@ const PlayButton = MKButton.coloredFab()
       width: 100,
       height: 100
    })
-  .withBackgroundColor('#d5d4f7')
+  .withBackgroundColor('#A8D689')
   .withStyle({
         shadowRadius: 8,
         shadowOffset: { width: 0, height: 0.5 },
