@@ -58,7 +58,6 @@ class ChapmanRadioRN extends Component {
           songPic: ".",
           songText: "",
 
-          scheduleJSON: "",
           scheduleArray: [],
           scheduleView: "",
 
@@ -180,11 +179,6 @@ class ChapmanRadioRN extends Component {
 
       if (searchStr == "") {
 
-        for (var i in this.state.scheduleJSON) {
-          this.state.scheduleArray.push(this.state.scheduleJSON[i].title)
-          this.state.scheduleArray.push(this.state.scheduleJSON[i].data)
-        }
-
           var contents = this.state.scheduleArray.map(function (item) {
 
             	if (evens) {
@@ -272,14 +266,18 @@ class ChapmanRadioRN extends Component {
        this.state.scheduleView = contents
 
     }
-    
+
     getSchedule() {
 
       fetch("https://api.chapmanradio.com/legacy/schedule.json")
         .then((response) => response.json())
         .then((responseData) => {
 
-          this.setState({scheduleJSON: responseData});
+          for (var i in responseData) {
+            this.state.scheduleArray.push(responseData[i].title)
+            this.state.scheduleArray.push(responseData[i].data)
+          }
+
           this.makeSchedule("")
           this.setState({tabSwitchLocked: false});
 
