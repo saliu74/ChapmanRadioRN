@@ -1,6 +1,10 @@
 package com.chapmanradiorn;
 
+import android.content.Intent;
+
 import com.facebook.react.ReactActivity;
+import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +16,15 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "ChapmanRadioRN";
     }
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate()");
+        Intent serviceIntent = new Intent(this, MyService.class);
+        startService(serviceIntent);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.chapmanradiorn;
 import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
+import android.content.Intent;
 
 import com.facebook.react.ReactApplication;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
@@ -32,6 +33,22 @@ public class MainApplication extends Application implements ReactApplication {
       );
     }
   };
+
+  private static final String TAG = MainApplication.class.getSimpleName();
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    Log.i(TAG, "BLAHHHonCreate()");
+    Intent serviceIntent = new Intent(this, MyService.class);
+    startService(serviceIntent);
+  }
+
+  @Override
+  public void onLowMemory() {
+    super.onLowMemory();
+    Log.i(TAG, "BLAHHHonLowMemory()");
+  }
 
   @Override
   public ReactNativeHost getReactNativeHost() {
