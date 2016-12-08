@@ -34,22 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
     }
   };
 
-  private static final String TAG = MainApplication.class.getSimpleName();
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    Log.i(TAG, "BLAHHHonCreate()");
-    Intent serviceIntent = new Intent(this, MyService.class);
-    startService(serviceIntent);
-  }
-
-  @Override
-  public void onLowMemory() {
-    super.onLowMemory();
-    Log.i(TAG, "BLAHHHonLowMemory()");
-  }
-
   @Override
   public ReactNativeHost getReactNativeHost() {
       return mReactNativeHost;
