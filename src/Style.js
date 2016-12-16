@@ -47,9 +47,8 @@ var Style = StyleSheet.create({
     },
 
     cardImageStyle: {
-      flex: 1,
       height: 170,
-      resizeMode: 'contain'
+      width: 170
     },
 
     scheduleContainer: {
