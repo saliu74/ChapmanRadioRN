@@ -185,7 +185,7 @@ class ChapmanRadioRN extends Component {
                 evens = false
 
                 return (
-                  <Text style={Style.sectionHead} key={item}>{item}</Text>
+                  <Text style={Style.sectionHead} key={item + Math.random()}>{item}</Text>
                 );
               }
             	else {
@@ -194,7 +194,7 @@ class ChapmanRadioRN extends Component {
                 var contentsTemp = item.map(function (item) {
                   var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
                   return (
-                    <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                    <View style={Style.scheduleCard} key={item[1] + item[2] + Math.random()}>
                       <View style={theme.cardStyle}>
                         <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                         <Text style={theme.cardContentStyle}>
@@ -227,7 +227,7 @@ class ChapmanRadioRN extends Component {
 
                var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
                return (
-                 <View style={Style.scheduleCard} key={item[1] + item[2]}>
+                 <View style={Style.scheduleCard} key={item[1] + item[2] + Math.random()}>
                    <View style={theme.cardStyle}>
                      <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                      <Text style={theme.cardContentStyle}>
@@ -242,7 +242,7 @@ class ChapmanRadioRN extends Component {
              else {
 
                return (
-                 <View style={Style.discardCard} key={item[1] + item[2]}>
+                 <View style={Style.discardCard} key={item[1] + item[2] + Math.random()}>
                  </View>
                );
 
