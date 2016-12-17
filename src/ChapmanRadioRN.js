@@ -169,6 +169,9 @@ class ChapmanRadioRN extends Component {
     }
 
     componentDidMount() {
+
+
+
     }
 
     // Populates some render thing with views to creat schedule scroll view with material cards
@@ -185,7 +188,7 @@ class ChapmanRadioRN extends Component {
                 evens = false
 
                 return (
-                  <Text style={Style.sectionHead} key={item + Math.random()}>{item}</Text>
+                  <Text style={Style.sectionHead} key={Math.random()}>{item}</Text>
                 );
               }
             	else {
@@ -194,7 +197,7 @@ class ChapmanRadioRN extends Component {
                 var contentsTemp = item.map(function (item) {
                   var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
                   return (
-                    <View style={Style.scheduleCard} key={item[1] + item[2] + Math.random()}>
+                    <View style={Style.scheduleCard} key={Math.random()}>
                       <View style={theme.cardStyle}>
                         <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                         <Text style={theme.cardContentStyle}>
@@ -227,7 +230,7 @@ class ChapmanRadioRN extends Component {
 
                var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
                return (
-                 <View style={Style.scheduleCard} key={item[1] + item[2] + Math.random()}>
+                 <View style={Style.scheduleCard} key={Math.random()}>
                    <View style={theme.cardStyle}>
                      <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
                      <Text style={theme.cardContentStyle}>
@@ -242,7 +245,7 @@ class ChapmanRadioRN extends Component {
              else {
 
                return (
-                 <View style={Style.discardCard} key={item[1] + item[2] + Math.random()}>
+                 <View style={Style.discardCard} key={Math.random()}>
                  </View>
                );
 
@@ -369,6 +372,29 @@ class ChapmanRadioRN extends Component {
 
         })
         .done();
+
+        ReactNativeAudioStreaming.getStatus((err,r) =>
+        {
+          if ((r.status == "STOPPED"|| r.status == "PAUSED") && this.state.playButtonLabel == "PAUSE")
+          {
+            this.setState({
+                playButtonLabel: "PLAY"
+            })
+          }
+          if (r.status == "PLAYING" && this.state.playButtonLabel == "PLAY")
+          {
+            this.setState({
+                playButtonLabel: "PAUSE"
+            })
+          }
+          if (r.status == "PLAYING" && this.state.playButtonLabel == " PLAY ")
+          {
+            this.setState({
+                playButtonLabel: "PAUSE"
+            })
+          }
+        }
+        )
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       // LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
