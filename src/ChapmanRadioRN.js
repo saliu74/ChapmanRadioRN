@@ -195,11 +195,11 @@ class ChapmanRadioRN extends Component {
                 evens = true
 
                 var contentsTemp = item.map(function (item) {
-                  var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+                  var scheduleText = "(" + item[3] + ") " + item[2] + ": " + item[1] + " (" + item[4] + ")"
                   return (
                     <View style={Style.scheduleCard} key={Math.random()}>
                       <View style={theme.cardStyle}>
-                        <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                        <Image source={{uri : "https://" + (item[7]).slice(2)}} style={Style.cardImageStyle} />
                         <Text style={theme.cardContentStyle}>
                           {scheduleText}
                         </Text>
@@ -228,11 +228,11 @@ class ChapmanRadioRN extends Component {
 
              if (item[1].toLowerCase().includes(searchStr.toLowerCase())) {
 
-               var scheduleText = item[2] + ": " + item[1] + " (" + item[3] + ")"
+               var scheduleText = "(" + item[3] + ") " + item[2] + ": " + item[1] + " (" + item[4] + ")"
                return (
                  <View style={Style.scheduleCard} key={Math.random()}>
                    <View style={theme.cardStyle}>
-                     <Image source={{uri : "https://" + (item[6]).slice(2)}} style={Style.cardImageStyle} />
+                     <Image source={{uri : "https://" + (item[7]).slice(2)}} style={Style.cardImageStyle} />
                      <Text style={theme.cardContentStyle}>
                        {scheduleText}
                      </Text>
