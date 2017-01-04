@@ -71,6 +71,8 @@ class ChapmanRadioRN extends Component {
 
     render() {
 
+      //console.log("RENDER")
+
       // Card specifics
 
       const theme = getTheme();
