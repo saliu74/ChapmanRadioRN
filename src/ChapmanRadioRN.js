@@ -228,7 +228,7 @@ class ChapmanRadioRN extends Component {
 
            var contentsTemp = item.map(function (item) {
 
-             if (item[1].toLowerCase().includes(searchStr.toLowerCase())) {
+             if ((item[1] + item[2] + item[3]).toLowerCase().includes(searchStr.toLowerCase())) {
 
                var scheduleText = "(" + item[3] + ") " + item[2] + ": " + item[1] + " (" + item[4] + ")"
                return (
