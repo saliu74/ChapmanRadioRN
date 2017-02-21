@@ -59,7 +59,7 @@ class ChapmanRadioRN extends Component {
           songText: "",
 
           scheduleArray: [],
-          scheduleView: "",
+          scheduleView: <View></View>,
 
           oldSongJSON: "",
           oldShowJSON: "",
