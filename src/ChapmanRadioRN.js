@@ -176,7 +176,7 @@ class ChapmanRadioRN extends Component {
 
     }
 
-    // Populates some render thing with views to creat schedule scroll view with material cards
+    // Populates some render thing with views to create schedule scroll view with material cards
     makeSchedule(searchStr) {
 
       const theme = getTheme();
